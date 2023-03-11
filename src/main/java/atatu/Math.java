@@ -1,3 +1,5 @@
+package atatu;
+
 public class Math {
     public static long addition(long a, long b) {
         return a + b;
