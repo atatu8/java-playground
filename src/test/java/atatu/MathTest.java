@@ -13,7 +13,7 @@ public class MathTest {
     @Before
     public void setUp() {
         a = 10;
-        b = 2;
+        b = 0;
     }
 
     @Test
@@ -35,7 +35,7 @@ public class MathTest {
     }
 
     @Test
-    public void devisionTest() {
+    public void devisionTest() throws DevideByZeroException {
         int result = 5;
         assertEquals("10 / 2 must be equal 5", result, Math.devision(a, b));
     }

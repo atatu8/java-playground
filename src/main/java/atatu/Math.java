@@ -13,7 +13,9 @@ public class Math {
         return a * b;
     }
 
-    public static long devision(long a, long b) {
+    public static long devision(long a, long b) throws DevideByZeroException{
+        if(b == 0)
+            throw new DevideByZeroException("Devide by zero excpetion!");
         return a / b;
     }
 }
