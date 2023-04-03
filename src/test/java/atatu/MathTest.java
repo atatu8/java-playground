@@ -13,13 +13,12 @@ public class MathTest {
     @Before
     public void setUp() {
         a = 10;
-        b = 0;
+        b = 2;
     }
 
     @Test
     public void zeroDivisionTest() throws DivideByZeroException {
-        if (b == 0)
-            throw new DivideByZeroException("Divide by zero exception");
+        Math.division(a, 0);
     }
 
     @Test
