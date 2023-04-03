@@ -17,6 +17,12 @@ public class MathTest {
     }
 
     @Test
+    public void zeroDivisionTest() throws DivideByZeroException {
+        if (b == 0)
+            throw new DivideByZeroException("Divide by zero exception");
+    }
+
+    @Test
     public void additionTest() {
         int result = 12;
         assertEquals("10 + 2 must be equal 12", result, Math.addition(a, b));
@@ -35,8 +41,9 @@ public class MathTest {
     }
 
     @Test
-    public void devisionTest() throws DevideByZeroException {
+    public void divisionTest() throws DivideByZeroException {
         int result = 5;
-        assertEquals("10 / 2 must be equal 5", result, Math.devision(a, b));
+        assertEquals("10 / 2 must be equal 5", result, Math.division(a, b));
     }
+
 }
