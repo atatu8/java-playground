@@ -16,7 +16,7 @@ public class MathTest {
         b = 2;
     }
 
-    @Test
+    @Test(expected = DivideByZeroException.class)
     public void zeroDivisionTest() throws DivideByZeroException {
         Math.division(a, 0);
     }
