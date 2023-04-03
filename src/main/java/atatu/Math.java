@@ -1,3 +1,5 @@
+package atatu;
+
 public class Math {
     public static long addition(long a, long b) {
         return a + b;
@@ -11,7 +13,11 @@ public class Math {
         return a * b;
     }
 
-    public static long devision(long a, long b) {
+    public static long division(long a, long b) throws DivideByZeroException {
+        if(b == 0)
+            throw new DivideByZeroException("Divide by zero Exception");
         return a / b;
     }
+    
+    
 }
