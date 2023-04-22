@@ -9,14 +9,16 @@ import java.net.URL;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class BankReserve {
-    public static void read() {
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-        String query = "https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=202301&json";
+class HttpClient {
+    public static String get(String url) {
         HttpURLConnection connection = null;
+        StringBuilder sb = new StringBuilder();
 
         try {
-            connection = (HttpURLConnection) new URL(query).openConnection();
+            connection = (HttpURLConnection) new URL(url).openConnection();
 
             connection.setRequestMethod("GET");
             connection.setUseCaches(false);
@@ -24,17 +26,41 @@ public class BankReserve {
             connection.setReadTimeout(2000);
             connection.connect();
 
-            StringBuilder sb = new StringBuilder();
-
             if (HttpURLConnection.HTTP_OK == connection.getResponseCode()) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
-                    while ((line = in.readLine()) != null) {
-                        sb.append(line);
-                    }
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
             }
+        } catch (Throwable cause) {
+            cause.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+
+        return sb.toString();
+    }
+}
+
+public class BankReserve {
+    /*public String dt;
+    public String txt;
+    public String txten;
+    public String id_api;
+    public int leveli;
+    public String parent;
+    public String freq;
+    public float value;
+    public String tzep;*/
+
+    public static void read() {
+        try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(sb.toString());
+            String content = HttpClient.get("https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=202301&json");
+            JsonNode jsonNode = objectMapper.readTree(content);
             Iterator<JsonNode> itr = jsonNode.iterator();
 
             for (int i = 0; i < jsonNode.size(); i++) {
@@ -43,12 +69,15 @@ public class BankReserve {
                         + " " + innerNode.get("txten") + " " + innerNode.get("value"));
             }
 
-        } catch (Throwable cause) {
-            cause.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
+            // BankReserve[] bankReserves = objectMapper.readValue(content, BankReserve[].class);
+            // for (BankReserve bankReserve : bankReserves) {
+            //     System.out.printf("%s, %s \"%s\", %f\n", bankReserve.dt, bankReserve.id_api, bankReserve.txten, bankReserve.value);
+            // }
+
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 }
