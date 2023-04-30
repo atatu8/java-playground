@@ -14,8 +14,8 @@ public class Math {
     }
 
     public static long division(long a, long b) throws DivideByZeroException {
-        if(b == 0)
-            throw new DivideByZeroException("Divide by zero Exception");
+       if(b == 0)
+           throw new DivideByZeroException("Divide by zero Exception");
         return a / b;
     }
     
