@@ -1,7 +1,9 @@
 package atatu;
 
 public class App {
-    public static void main(String[] args) {
-
+    public static void main(String[] args){
+        BankReserve.read();
     }
+
+    
 }   
